@@ -50,6 +50,7 @@
     .result {
       margin-top: 20px;
       font-weight: bold;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -73,7 +74,7 @@
       }
 
       try {
-        const res = await fetch(`http://localhost:3000/wallet/${wallet}`);
+        const res = await fetch(`https://botfilter-wbgl.onrender.com/wallet/${wallet}`);
         const data = await res.json();
 
         if (data.error) {
