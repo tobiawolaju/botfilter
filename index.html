@@ -52,6 +52,20 @@
       font-weight: bold;
       white-space: pre-wrap;
     }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #8b5cf6;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -60,6 +74,9 @@
     <input id="walletInput" type="text" placeholder="Enter wallet address" />
     <button onclick="checkWallet()">Check & Mint</button>
     <div class="result" id="result"></div>
+    <div class="footer">
+      <a href="https://github.com/tobiawolaju/botfilter" target="_blank">🌐 View Source & Contribute</a>
+    </div>
   </div>
 
   <script>
