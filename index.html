@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NFT Mint Demo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #8b5cf6;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Mint NFT Demo</h2>
+    <input id="walletInput" type="text" placeholder="Enter wallet address" />
+    <button onclick="checkWallet()">Check & Mint</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    async function checkWallet() {
+      const wallet = document.getElementById("walletInput").value.trim();
+      const resultEl = document.getElementById("result");
+      resultEl.innerText = "Checking...";
+
+      if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
+        resultEl.innerText = "Invalid wallet address.";
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3000/wallet/${wallet}`);
+        const data = await res.json();
+
+        if (data.error) {
+          resultEl.innerText = "Error: " + data.error;
+          return;
+        }
+
+        const score = parseFloat(data.score);
+        let msg = `Score: ${score}\n`;
+
+        if (score <= 3) {
+          msg += "✅ Human-like wallet. You can mint!";
+        } else if (score <= 6.5) {
+          msg += "⚠️ Suspicious wallet. Proceed with caution.";
+        } else {
+          msg += "❌ Likely a bot. Minting not allowed.";
+        }
+
+        resultEl.innerText = msg;
+      } catch (err) {
+        resultEl.innerText = "Failed to reach API.";
+      }
+    }
+  </script>
+</body>
+</html>
